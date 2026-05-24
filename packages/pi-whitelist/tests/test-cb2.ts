@@ -1,0 +1,1 @@
+console.log("bash -c 'echo ok; rm -rf /'".match(/^(?:sudo\sk|doas\s+)?(?:sh|bash|zsh|fish|dash)\s+-c\s+(["'])(.*?)\1/i))

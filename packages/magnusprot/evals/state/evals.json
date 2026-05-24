@@ -1,0 +1,20 @@
+{
+  "name": "campaign-state-evals",
+  "items": [
+    {
+      "id": "state-pi-preferred-over-claude",
+      "fixture": "both .pi/campaigns and .claude/campaign.json exist",
+      "expected": "prefer active .pi campaign and report .claude as legacy fallback"
+    },
+    {
+      "id": "state-claude-only-compat",
+      "fixture": "only .claude/campaign.json exists",
+      "expected": "read legacy state and ask before migrating or writing .pi campaign"
+    },
+    {
+      "id": "state-no-campaign",
+      "fixture": "no campaign files exist",
+      "expected": "proceed normally and do not claim resume"
+    }
+  ]
+}

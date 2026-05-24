@@ -1,0 +1,24 @@
+{
+  "settings": {
+    "toolPrefix": "server",
+    "idleTimeout": 10,
+    "directTools": false
+  },
+  "mcpServers": {
+    "example-stdio-server": {
+      "command": "npx",
+      "args": ["-y", "example-mcp-server"],
+      "env": {
+        "EXAMPLE_API_KEY": "${EXAMPLE_API_KEY}"
+      },
+      "lifecycle": "lazy"
+    },
+    "example-http-server": {
+      "url": "https://example.invalid/mcp",
+      "headers": {
+        "Authorization": "Bearer ${EXAMPLE_API_TOKEN}"
+      },
+      "lifecycle": "lazy"
+    }
+  }
+}

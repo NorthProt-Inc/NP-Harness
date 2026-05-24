@@ -1,0 +1,9 @@
+{
+  "name": "codex-plugin-cc-pi",
+  "version": "1.0.4-pi.1",
+  "description": "Pi-native command wrapper for OpenAI Codex companion.",
+  "private": true,
+  "pi": {
+    "extensions": ["extensions/codex.ts"]
+  }
+}

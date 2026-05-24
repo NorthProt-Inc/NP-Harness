@@ -1,0 +1,15 @@
+{
+  "name": "workflow-chain-evals",
+  "items": [
+    {
+      "id": "chain-nontrivial-feature",
+      "prompt": "Build a new non-trivial feature with proper planning and verification.",
+      "expected_sequence": ["brainstorm-flow", "plan-flow", "plancheck-flow", "execute-flow", "verify-anly"],
+      "forbidden_behavior": [
+        "implementation before design approval",
+        "skipping plancheck",
+        "claiming completion without fresh evidence"
+      ]
+    }
+  ]
+}

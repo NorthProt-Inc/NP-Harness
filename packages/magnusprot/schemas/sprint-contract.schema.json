@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/NorthProt-Inc/NP-Harness/schemas/sprint-contract.schema.json",
+  "title": "magnusprot Pi Sprint Contract",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "sprint_id",
+    "campaign_id",
+    "feature",
+    "deliverables",
+    "success_criteria",
+    "testable_behaviors",
+    "scope_boundaries",
+    "evaluation_method"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "sprint_id": {
+      "type": "string",
+      "pattern": "^[0-9]{3}$"
+    },
+    "campaign_id": { "type": "string", "minLength": 1 },
+    "feature": { "type": "string", "minLength": 1 },
+    "deliverables": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "success_criteria": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "testable_behaviors": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "scope_boundaries": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "evaluation_method": {
+      "type": "string",
+      "enum": ["unit", "manual", "playwright"]
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

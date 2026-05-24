@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/NorthProt-Inc/NP-Harness/schemas/campaign.schema.json",
+  "title": "magnusprot Pi Campaign",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "harness",
+    "project",
+    "campaign_id",
+    "started",
+    "updated",
+    "current_phase",
+    "current_sprint",
+    "total_sprints",
+    "completed_sprints",
+    "decisions_log",
+    "continuation_prompt"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "harness": { "const": "pi" },
+    "project": { "type": "string", "minLength": 1 },
+    "campaign_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9][a-z0-9-]*$"
+    },
+    "started": { "type": "string", "format": "date-time" },
+    "updated": { "type": "string", "format": "date-time" },
+    "current_phase": {
+      "type": "string",
+      "enum": ["brainstorm", "plan", "plancheck", "execute", "verify", "blocked", "complete"]
+    },
+    "current_sprint": { "type": "integer", "minimum": 1 },
+    "total_sprints": { "type": "integer", "minimum": 1 },
+    "completed_sprints": {
+      "type": "array",
+      "items": { "type": "integer", "minimum": 1 },
+      "uniqueItems": true
+    },
+    "blocked_reason": { "type": ["string", "null"] },
+    "resume_instruction": { "type": ["string", "null"] },
+    "continuation_prompt": { "type": "string" },
+    "decisions_log": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          { "type": "string" },
+          {
+            "type": "object",
+            "required": ["timestamp", "decision"],
+            "properties": {
+              "timestamp": { "type": "string", "format": "date-time" },
+              "decision": { "type": "string" },
+              "rationale": { "type": "string" }
+            },
+            "additionalProperties": true
+          }
+        ]
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "properties": {
+        "design": { "type": "string" },
+        "plan": { "type": "string" },
+        "legacy": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": { "type": ["string", "array", "object", "null"] }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "legacy_source": { "type": ["string", "object", "array", "null"] },
+        "legacy_unparsed": { "type": ["object", "array", "null"] }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

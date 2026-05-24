@@ -1,0 +1,17 @@
+{
+  "name": "agent-dispatch-evals",
+  "items": [
+    {
+      "id": "dispatch-implement-schema",
+      "input": "execute-flow orchestrator mode for one task",
+      "required_fields": ["subagent_type", "description", "prompt", "run_in_background"],
+      "required_prompt_content": [
+        "absolute working directory",
+        "full task text",
+        "acceptance criteria",
+        "stop conditions"
+      ],
+      "forbidden_terms": ["Task tool", "TodoWrite", "default_api:"]
+    }
+  ]
+}

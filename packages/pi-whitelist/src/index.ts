@@ -1,0 +1,93 @@
+// Permission Manager
+export { PermissionManager } from './manager.js'
+export type { PermissionManagerOptions } from './manager.js'
+export { checkPermission } from './check.js'
+
+// Types
+export type {
+  PermissionBehavior,
+  ExternalPermissionMode,
+  InternalPermissionMode,
+  PermissionMode,
+  PermissionRuleSource,
+  PermissionRuleValue,
+  PermissionRule,
+  PermissionCheckInput,
+  PermissionAllowDecision,
+  PermissionAskDecision,
+  PermissionDenyDecision,
+  PermissionDecision,
+  PermissionDecisionReason,
+  PermissionUpdateDestination,
+  PermissionUpdate,
+  WorkingDirectorySource,
+  AdditionalWorkingDirectory,
+  ToolPermissionContext,
+} from './types/index.js'
+
+export {
+  EXTERNAL_PERMISSION_MODES,
+  MODE_CYCLE,
+  PERMISSION_MODE_ALIASES,
+} from './types/index.js'
+
+// Zod schemas
+export {
+  permissionBehaviorSchema,
+  permissionRuleValueSchema,
+  permissionRuleSchema,
+  permissionModeSchema,
+  permissionUpdateSchema,
+  permissionSettingsSchema,
+} from './types/index.js'
+
+// Rule parser
+export {
+  parseRuleString,
+  serializeRuleString,
+  escapeRuleContent,
+  unescapeRuleContent,
+} from './rules/index.js'
+
+// Matchers
+export { GlobMatcher, CommandMatcher, FileMatcher, MatcherRegistry } from './matchers/index.js'
+export type { RuleMatcher } from './matchers/index.js'
+
+// Storage
+export type { SettingsStore, PermissionSettings } from './storage/index.js'
+export { MemorySettingsStore, FileSettingsStore, mergeSettings } from './storage/index.js'
+
+// Constants
+export { READ_ONLY_TOOLS, isReadOnly } from './readonly.js'
+export { evaluatePlanMode, isPlanModeBashSafe } from './plan-mode.js'
+export type { PlanModeOutcome } from './plan-mode.js'
+export {
+  KNOWN_NORMALIZED_TOOL_NAMES,
+  TOOL_NAME_ALIASES,
+  normalizeToolName,
+} from './tool-names.js'
+export type {
+  KnownNormalizedToolName,
+  NormalizedToolName,
+  ToolNameAlias,
+} from './tool-names.js'
+export { DANGEROUS_PATTERNS } from './dangerous.js'
+export { DEFAULT_ALLOW_RULES, SOURCE_PRECEDENCE } from './constants.js'
+
+// Deny paths utility
+export { expandDenyPaths, FILE_TOOLS } from './deny-paths.js'
+
+// Smart pattern suggestions
+export { suggestBashPatterns, suggestFilePatterns, generateSmartDefault } from './smart-patterns.js'
+export type { SmartPattern } from './smart-patterns.js'
+
+// Progressive learning
+export { createPrefixTracker, recordAllowOnce } from './progressive-learning.js'
+export type { PrefixTracker, PrefixSuggestion } from './progressive-learning.js'
+
+// Dangerous override
+export { checkDangerousOverride, DANGEROUS_PATTERNS as DANGEROUS_OVERRIDE_PATTERNS } from './dangerous-override.js'
+
+// Errors
+export { PermissionError, RuleParseError, StorageError, MatcherError } from './errors.js'
+export type { PermissionErrorCode } from './errors.js'

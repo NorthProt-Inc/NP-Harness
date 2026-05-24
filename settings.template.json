@@ -1,0 +1,107 @@
+{
+  "lastChangelogVersion": "0.75.5",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.5",
+  "defaultThinkingLevel": "high",
+  "theme": "vira-graphene-high-contrast",
+  "skills": [
+    "${PI_AGENT_DIR}/skills/docx",
+    "${PI_AGENT_DIR}/skills/enhanced-frontend",
+    "${PI_AGENT_DIR}/skills/fill-pdf",
+    "${PI_AGENT_DIR}/skills/find-skills",
+    "${PI_AGENT_DIR}/skills/frontend-design",
+    "${PI_AGENT_DIR}/skills/gws-calendar",
+    "${PI_AGENT_DIR}/skills/gws-docs",
+    "${PI_AGENT_DIR}/skills/gws-drive",
+    "${PI_AGENT_DIR}/skills/gws-gmail",
+    "${PI_AGENT_DIR}/skills/gws-shared",
+    "${PI_AGENT_DIR}/skills/mcp-builder",
+    "${PI_AGENT_DIR}/skills/pdf",
+    "${PI_AGENT_DIR}/skills/pptx",
+    "${PI_AGENT_DIR}/skills/skill-creator",
+    "${PI_AGENT_DIR}/skills/xlsx"
+  ],
+  "packages": [
+    "${PI_AGENT_DIR}/node_modules/pi-mcp-adapter",
+    "${PI_AGENT_DIR}/packages/pi-whitelist",
+    "${PI_AGENT_DIR}/packages/pi-subagents",
+    "${PI_AGENT_DIR}/packages/magnusprot",
+    "${PI_AGENT_DIR}/packages/codex-plugin",
+    "${PI_AGENT_DIR}/packages/pi-kits"
+  ],
+  "permissions": {
+    "allow": [
+      "Agent",
+      "bash",
+      "bash(sudo *)",
+      "context7_query-docs",
+      "context7_resolve-library-id",
+      "edit(*.{desktop,gitignore,js,json,md,py,ts})",
+      "edit(${PI_AGENT_DIR}/**/*.{md,py,ts})",
+      "get_subagent_result",
+      "playwright_browser_click",
+      "playwright_browser_close",
+      "playwright_browser_console_messages",
+      "playwright_browser_drag",
+      "playwright_browser_drop",
+      "playwright_browser_evaluate",
+      "playwright_browser_file_upload",
+      "playwright_browser_fill_form",
+      "playwright_browser_handle_dialog",
+      "playwright_browser_hover",
+      "playwright_browser_navigate",
+      "playwright_browser_navigate_back",
+      "playwright_browser_network_request",
+      "playwright_browser_network_requests",
+      "playwright_browser_press_key",
+      "playwright_browser_resize",
+      "playwright_browser_select_option",
+      "playwright_browser_snapshot",
+      "playwright_browser_tabs",
+      "playwright_browser_take_screenshot",
+      "playwright_browser_type",
+      "playwright_browser_wait_for",
+      "read",
+      "tavily_tavily_crawl",
+      "tavily_tavily_extract",
+      "tavily_tavily_map",
+      "tavily_tavily_research",
+      "tavily_tavily_search",
+      "write(*.{desktop,json,md,py,ts})",
+      "write(${PI_AGENT_DIR} *)"
+    ],
+    "deny": [],
+    "ask": [
+      "playwright_browser_run_code_unsafe"
+    ],
+    "denyPaths": [],
+    "additionalDirectories": []
+  },
+  "extensions": [
+    "${PI_AGENT_DIR}/extensions"
+  ],
+  "autocompleteMaxVisible": 7,
+  "terminal": {
+    "clearOnShrink": false,
+    "showTerminalProgress": true
+  },
+  "httpIdleTimeoutMs": 300000,
+  "quietStartup": false,
+  "doubleEscapeAction": "tree",
+  "enabledModels": [
+    "openai-codex/gpt-5.5",
+    "google/gemini-3.1-pro-preview",
+    "google/gemini-3.5-flash",
+    "anthropic/claude-opus-4-7",
+    "anthropic/claude-sonnet-4-6",
+    "anthropic/claude-haiku-4-5-20251001",
+    "openai-codex/gpt-5.4",
+    "openai-codex/gpt-5.4-mini",
+    "openai/gpt-5.5"
+  ],
+  "compaction": {
+    "enabled": true
+  },
+  "editorPaddingX": 2,
+  "transport": "auto"
+}

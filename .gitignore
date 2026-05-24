@@ -1,0 +1,41 @@
+# Dependencies and generated output
+node_modules/
+**/node_modules/
+dist/.cache/
+coverage/
+*.tsbuildinfo
+
+# Pi runtime state and private data
+sessions/
+**/sessions/
+logs/
+**/logs/
+backups/
+**/backups/
+codex-plugin-data/
+**/codex-plugin-data/
+memory/
+**/memory/
+.remember/
+**/.remember/
+.pi/
+**/.pi/campaigns/
+
+# Secrets, auth, and MCP runtime caches
+auth.json
+mcp.json
+.mcp.json
+mcp-cache.json
+mcp-npx-cache.json
+.mcp-needs-auth-cache.json
+stats-cache.json
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Nested package internals
+**/.git/
+**/.codebase-wiki/

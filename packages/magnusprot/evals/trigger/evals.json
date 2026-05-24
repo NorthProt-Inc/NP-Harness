@@ -1,0 +1,21 @@
+{
+  "name": "workflow-trigger-evals",
+  "items": [
+    {
+      "id": "trigger-brainstorm-ambiguous-feature",
+      "prompt": "I have an idea for a small dashboard feature but I'm not sure what the data flow should look like. Help me shape it before coding.",
+      "expected_skill": "brainstorm-flow",
+      "should_not_jump_to": ["execute-flow", "implement-flow"]
+    },
+    {
+      "id": "trigger-plancheck-review-plan",
+      "prompt": "Review this implementation plan before I run it. I'm worried it may be over-engineered.",
+      "expected_skill": "plancheck-flow"
+    },
+    {
+      "id": "trigger-verify-completion",
+      "prompt": "Check whether the implementation actually matches the plan and whether the tests really passed before we call it done.",
+      "expected_skill": "verify-anly"
+    }
+  ]
+}
