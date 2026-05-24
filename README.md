@@ -5,7 +5,7 @@
 
 Public-safe Pi coding-agent harness configuration for NorthProt workflows.
 
-NP-Harness is a sanitized, restorable snapshot of Pi customizations: global agent rules, subagent definitions, local extensions, skills, prompts, themes, kits, and local Pi packages. It intentionally excludes credentials, private memory, session history, logs, and other runtime data.
+NP-Harness is a sanitized, restorable snapshot of Pi customizations: global agent rules, subagent definitions, local extensions, skills, prompts, themes, kits, and local Pi packages.
 
 ---
 
