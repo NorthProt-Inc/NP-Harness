@@ -5,6 +5,15 @@ dist/.cache/
 coverage/
 *.tsbuildinfo
 
+# OS and editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
 # Pi runtime state and private data
 sessions/
 **/sessions/
@@ -31,6 +40,7 @@ mcp-npx-cache.json
 stats-cache.json
 .env
 .env.*
+!.env.example
 *.pem
 *.key
 *.p12
