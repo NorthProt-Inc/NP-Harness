@@ -3,7 +3,6 @@ name: security-dev
 description: Use when scanning for security vulns — secrets, injection, unsafe APIs
 metadata:
   pi:
-    model: sonnet
     argument-hint: '[path]'
     user-invocable: true
 ---

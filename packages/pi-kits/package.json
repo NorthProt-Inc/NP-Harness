@@ -1,5 +1,5 @@
 {
-  "name": "@northprot/pi-kits",
+  "name": "@cyan/pi-kits",
   "version": "0.1.0",
   "description": "Pi kits catalog commands",
   "type": "module",

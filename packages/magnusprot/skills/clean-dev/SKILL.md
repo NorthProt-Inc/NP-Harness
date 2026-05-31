@@ -3,7 +3,6 @@ name: clean-dev
 description: Use when cleaning caches, Docker, logs, or auditing disk/RAM usage
 metadata:
   pi:
-    model: haiku
     user-invocable: true
     argument-hint: '[--dev|--system|--deep|--nuke|--mem|--audit|--dry-run|--category=X|path|--all]'
 ---

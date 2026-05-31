@@ -3,7 +3,6 @@ name: init-dev
 description: Use when loading project context — scan configs, deps, git state
 metadata:
   pi:
-    model: haiku
     user-invocable: true
 ---
 

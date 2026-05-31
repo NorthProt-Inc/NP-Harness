@@ -65,7 +65,7 @@ def check_schema_semantics(failures: list[str]) -> None:
     campaign = json.loads(read(ROOT / "schemas/campaign.schema.json"))
     sprint = json.loads(read(ROOT / "schemas/sprint-contract.schema.json"))
 
-    if campaign.get("$id") != "https://github.com/NorthProt-Inc/NP-Harness/schemas/campaign.schema.json":
+    if campaign.get("$id") != "https://github.com/cyanprot/magnusprot/schemas/campaign.schema.json":
         fail("campaign schema has wrong $id", failures)
     if campaign.get("title") != "magnusprot Pi Campaign":
         fail("campaign schema has wrong title", failures)
@@ -73,7 +73,7 @@ def check_schema_semantics(failures: list[str]) -> None:
         if field not in campaign.get("required", []):
             fail(f"campaign schema missing required field {field!r}", failures)
 
-    if sprint.get("$id") != "https://github.com/NorthProt-Inc/NP-Harness/schemas/sprint-contract.schema.json":
+    if sprint.get("$id") != "https://github.com/cyanprot/magnusprot/schemas/sprint-contract.schema.json":
         fail("sprint contract schema has wrong $id", failures)
     if sprint.get("title") != "magnusprot Pi Sprint Contract":
         fail("sprint contract schema has wrong title", failures)

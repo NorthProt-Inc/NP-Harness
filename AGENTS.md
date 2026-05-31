@@ -27,8 +27,8 @@ These rules apply to every pi session, in every working directory.
 
 ## Pi-Specific Addenda
 
-- **MCP secrets.** `~/.pi/agent/mcp.json` holds plaintext API keys and private MCP assistant
-  encryption keys. Never inline these values into commits, plans, or chat output. The file is gitignored (`.gitignore` in `~/.pi/agent/`).
+- **MCP secrets.** `~/.pi/agent/mcp.json` holds plaintext API keys and the cyan-assistant
+  `ENCRYPTION_KEY`. Never inline these values into commits, plans, or chat output. The file is gitignored (`.gitignore` in `~/.pi/agent/`).
 - **`claude -p` dependency.** Two skills shell out to Claude Code's CLI: `skills/mcp-builder/`
   and `skills/skill-creator/`. They require `claude` to be on PATH. Pi and Claude Code installations remain independent; do not assume one implies the other.
 - **Project handoff convention.** Long-running work uses `.remember/remember.md` in the project root

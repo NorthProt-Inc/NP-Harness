@@ -44,9 +44,6 @@ So `/handoff` is the human-facing command. `remember` is the reusable workflow b
     pdf/             PDF workflow. Extra .md files inside are references, not separate skills.
     ...
 
-  prompts/           Slash prompt templates.
-    handoff.md       Provides /handoff. Calls the remember skill workflow.
-
   extensions/        Local Pi extension code.
     memory.ts        Loads memory context.
     statusline.ts    Statusline customization.

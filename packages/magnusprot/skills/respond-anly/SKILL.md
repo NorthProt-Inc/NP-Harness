@@ -3,7 +3,6 @@ name: respond-anly
 description: Use when responding to review feedback — verify before agreeing
 metadata:
   pi:
-    model: sonnet
     user-invocable: true
 ---
 

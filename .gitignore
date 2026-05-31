@@ -30,8 +30,11 @@ memory/
 .pi/
 **/.pi/campaigns/
 
-# Secrets, auth, and MCP runtime caches
+# Secrets, auth, local settings, and MCP runtime caches
 auth.json
+settings.json
+settings.local.json
+*.local.json
 mcp.json
 .mcp.json
 mcp-cache.json
@@ -46,6 +49,8 @@ stats-cache.json
 *.p12
 *.pfx
 
-# Nested package internals
+# Nested package internals and legacy Claude package metadata
 **/.git/
 **/.codebase-wiki/
+**/.claude/
+**/.claude-plugin/

@@ -1,21 +1,18 @@
+import { homedir } from "node:os";
 import path from "node:path";
 
 import type { KitsPaths, KitsStatusPaths, ResolveKitsPathsOptions } from "./types.js";
 
-function defaultAgentRoot(): string {
-  return path.resolve(
-    process.env.PI_AGENT_DIR
-      ?? process.env.PI_CODING_AGENT_DIR
-      ?? path.join(process.env.HOME ?? "~", ".pi", "agent"),
-  );
-}
-
-export const AGENT_ROOT = defaultAgentRoot();
-export const CATALOG_ROOT = path.join(AGENT_ROOT, "kits");
-
 function normalizeDirectory(input: string): string {
   return path.resolve(input);
 }
+
+const DEFAULT_AGENT_ROOT = path.join(homedir(), ".pi", "agent");
+
+export const AGENT_ROOT = normalizeDirectory(
+  process.env.PI_AGENT_DIR ?? process.env.PI_CODING_AGENT_DIR ?? DEFAULT_AGENT_ROOT,
+);
+export const CATALOG_ROOT = path.join(AGENT_ROOT, "kits");
 
 export function getStatusPaths(cwd: string = process.cwd()): KitsStatusPaths {
   const projectRoot = normalizeDirectory(cwd);

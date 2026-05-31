@@ -1,3 +1,7 @@
+import { constants } from "node:fs";
+import { open } from "node:fs/promises";
+import { homedir } from "node:os";
+import { join } from "node:path";
 import { type ExtensionAPI, type ExtensionContext, type Theme } from "@earendil-works/pi-coding-agent";
 import { truncateToWidth, visibleWidth } from "@earendil-works/pi-tui";
 
@@ -16,17 +20,20 @@ type Snapshot = {
 	disk?: string;
 	gpu?: string;
 	context?: string;
+	caveman?: string;
 	cwd: string;
 	model?: string;
 };
 
 const refreshDebounceMs = 1_500;
 const slowProbeCacheMs = 10_000;
+const cavemanFlagPath = join(homedir(), ".pi", "agent", ".caveman-active");
+const validCavemanModes = new Set(["lite", "full", "ultra", "wenyan-lite", "wenyan", "wenyan-full", "wenyan-ultra"]);
 const identity = {
-	alias: "np",
+	alias: "cyan",
 	org: "northprot",
 	tagline: "carbon × silicon",
-	field: "agent harness",
+	field: "bioinformatics",
 	place: "Milky Way",
 };
 
@@ -97,6 +104,23 @@ function parseGpu(stdout: string | undefined) {
 	return `${temp}°C ${util}%`;
 }
 
+async function readCavemanMode() {
+	let handle: Awaited<ReturnType<typeof open>> | undefined;
+	try {
+		handle = await open(cavemanFlagPath, constants.O_RDONLY | constants.O_NOFOLLOW);
+		const stat = await handle.stat();
+		if (!stat.isFile() || stat.size > 64) return undefined;
+		const buffer = Buffer.alloc(Math.min(stat.size, 64));
+		const { bytesRead } = await handle.read(buffer, 0, buffer.length, 0);
+		const mode = buffer.toString("utf8", 0, bytesRead).trim().toLowerCase();
+		return validCavemanModes.has(mode) ? mode : undefined;
+	} catch {
+		return undefined;
+	} finally {
+		await handle?.close().catch(() => undefined);
+	}
+}
+
 function formatContext(ctx: ExtensionContext) {
 	const usage = ctx.getContextUsage();
 	if (typeof usage?.tokens !== "number" || typeof usage?.percent !== "number") return undefined;
@@ -129,13 +153,14 @@ async function getGpu(pi: ExtensionAPI, cache: ProbeCache) {
 }
 
 async function buildSnapshot(pi: ExtensionAPI, ctx: ExtensionContext, cache: ProbeCache): Promise<Snapshot> {
-	const [time, branch, loadRaw, memoryRaw, disk, gpu] = await Promise.all([
+	const [time, branch, loadRaw, memoryRaw, disk, gpu, caveman] = await Promise.all([
 		shell(pi, "date +%H:%M"),
 		getBranch(pi, ctx.cwd),
 		shell(pi, "uptime"),
 		shell(pi, "free -b"),
 		getDisk(pi, ctx.cwd, cache),
 		getGpu(pi, cache),
+		readCavemanMode(),
 	]);
 
 	return {
@@ -146,6 +171,7 @@ async function buildSnapshot(pi: ExtensionAPI, ctx: ExtensionContext, cache: Pro
 		disk,
 		gpu,
 		context: formatContext(ctx),
+		caveman,
 		cwd: homeRelative(ctx.cwd),
 		model: ctx.model?.id,
 	};
@@ -168,9 +194,13 @@ function renderDashboard(theme: Theme, snapshot: Snapshot | undefined, width: nu
 	const snap: Snapshot = snapshot ?? { cwd: "~" };
 	const handle = `${identity.alias}@${identity.org}`;
 	const title = `${theme.fg("borderMuted", "╭─")} ${theme.bold(theme.fg("accent", handle))} ${theme.fg("dim", identity.tagline)}`;
+	const cavemanBadge = snap.caveman
+		? theme.fg("warning", snap.caveman === "full" ? "[CAVEMAN]" : `[CAVEMAN:${snap.caveman.toUpperCase()}]`)
+		: undefined;
 	const right = joinDefined(
 		[
 			snap.time ? theme.fg("muted", snap.time) : undefined,
+			cavemanBadge,
 			snap.branch ? `${theme.fg("dim", "git ")}${theme.fg("muted", snap.branch)}` : undefined,
 			snap.model ? theme.fg("dim", snap.model) : undefined,
 		],
@@ -197,7 +227,7 @@ function renderDashboard(theme: Theme, snapshot: Snapshot | undefined, width: nu
 }
 
 function applyStaticChrome(ctx: ExtensionContext) {
-	ctx.ui.setTheme("vira-graphene-high-contrast");
+	ctx.ui.setTheme("vira-graphene-high-contrast-cyan");
 	const theme = ctx.ui.theme;
 	ctx.ui.setWorkingMessage(pickWorkingMessage());
 	ctx.ui.setWorkingIndicator({
@@ -248,6 +278,7 @@ export default function (pi: ExtensionAPI) {
 	let refreshTimer: ReturnType<typeof setTimeout> | undefined;
 	let refreshing = false;
 	let pendingCtx: ExtensionContext | undefined;
+	let lastCtx: ExtensionContext | undefined;
 
 	const clearTimer = () => {
 		if (refreshTimer) {
@@ -279,6 +310,7 @@ export default function (pi: ExtensionAPI) {
 	};
 
 	const schedule = (ctx: ExtensionContext, immediate = false) => {
+		lastCtx = ctx;
 		if (!ctx.hasUI) return;
 		const now = Date.now();
 		const wait = immediate || lastRefreshAt === 0 ? 0 : Math.max(0, refreshDebounceMs - (now - lastRefreshAt));
@@ -301,6 +333,10 @@ export default function (pi: ExtensionAPI) {
 		}, wait);
 	};
 
+	pi.events.on("caveman:mode", () => {
+		if (lastCtx) schedule(lastCtx, true);
+	});
+
 	pi.on("session_start", async (_event, ctx) => {
 		if (ctx.hasUI) {
 			applyStaticChrome(ctx);
@@ -309,25 +345,40 @@ export default function (pi: ExtensionAPI) {
 		schedule(ctx, true);
 	});
 
-	for (const eventName of [
-		"input",
-		"agent_start",
-		"turn_start",
-		"message_start",
-		"message_update",
-		"message_end",
-		"turn_end",
-		"agent_end",
-	] as const) {
-		pi.on(eventName, async (_event, ctx) => {
-			if (ctx.hasUI && (eventName === "turn_start" || eventName === "agent_start")) {
-				ctx.ui.setWorkingMessage(pickWorkingMessage());
-			}
-			schedule(ctx);
-			if (eventName === "input") return { action: "continue" as const };
-			return undefined;
-		});
-	}
+	pi.on("input", async (_event, ctx) => {
+		schedule(ctx);
+		return { action: "continue" as const };
+	});
+
+	pi.on("agent_start", async (_event, ctx) => {
+		if (ctx.hasUI) ctx.ui.setWorkingMessage(pickWorkingMessage());
+		schedule(ctx);
+	});
+
+	pi.on("turn_start", async (_event, ctx) => {
+		if (ctx.hasUI) ctx.ui.setWorkingMessage(pickWorkingMessage());
+		schedule(ctx);
+	});
+
+	pi.on("message_start", async (_event, ctx) => {
+		schedule(ctx);
+	});
+
+	pi.on("message_update", async (_event, ctx) => {
+		schedule(ctx);
+	});
+
+	pi.on("message_end", async (_event, ctx) => {
+		schedule(ctx);
+	});
+
+	pi.on("turn_end", async (_event, ctx) => {
+		schedule(ctx);
+	});
+
+	pi.on("agent_end", async (_event, ctx) => {
+		schedule(ctx);
+	});
 
 	pi.registerCommand("vira-tui", {
 		description: "Refresh the Vira Graphene / Cyan TUI chrome.",

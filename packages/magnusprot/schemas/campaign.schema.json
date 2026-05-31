@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/NorthProt-Inc/NP-Harness/schemas/campaign.schema.json",
+  "$id": "https://github.com/cyanprot/magnusprot/schemas/campaign.schema.json",
   "title": "magnusprot Pi Campaign",
   "type": "object",
   "required": [

@@ -3,7 +3,6 @@ name: worktree-flow
 description: Use when managing git worktree — setup, develop, merge/PR lifecycle
 metadata:
   pi:
-    model: sonnet
     user-invocable: true
 ---
 

@@ -1,9 +1,7 @@
 {
-  "lastChangelogVersion": "0.75.5",
-  "defaultProvider": "openai-codex",
-  "defaultModel": "gpt-5.5",
+  "lastChangelogVersion": "0.78.0",
   "defaultThinkingLevel": "high",
-  "theme": "vira-graphene-high-contrast",
+  "theme": "vira-graphene-high-contrast-cyan",
   "skills": [
     "${PI_AGENT_DIR}/skills/docx",
     "${PI_AGENT_DIR}/skills/enhanced-frontend",
@@ -36,8 +34,18 @@
       "bash(sudo *)",
       "context7_query-docs",
       "context7_resolve-library-id",
-      "edit(*.{desktop,gitignore,js,json,md,py,ts})",
+      "cyan_assistant_get_contact",
+      "cyan_assistant_get_personal_context",
+      "cyan_assistant_get_style_guide",
+      "cyan_assistant_save_email_record",
+      "cyan_assistant_search_contacts",
+      "cyan_assistant_search_email_history",
+      "cyan_assistant_set_personal_context",
+      "cyan_assistant_upsert_contact",
+      "cyan_assistant_upsert_style_guide",
+      "edit(**/*.{css,desktop,gitignore,js,json,md,py,ts,tsx,rs})",
       "edit(${PI_AGENT_DIR}/**/*.{md,py,ts})",
+      "edit(${HOME}/bin/**)",
       "get_subagent_result",
       "playwright_browser_click",
       "playwright_browser_close",
@@ -67,8 +75,10 @@
       "tavily_tavily_map",
       "tavily_tavily_research",
       "tavily_tavily_search",
-      "write(*.{desktop,json,md,py,ts})",
-      "write(${PI_AGENT_DIR} *)"
+      "write(**/*.{css,desktop,json,md,py,ts,tsx,rs})",
+      "write(${PI_AGENT_DIR} *)",
+      "write(${PI_AGENT_DIR}/.pi/campaigns/2026-05-23-pi-cleanup/**)",
+      "write(${HOME}/bin/**)"
     ],
     "deny": [],
     "ask": [
@@ -80,7 +90,7 @@
   "extensions": [
     "${PI_AGENT_DIR}/extensions"
   ],
-  "autocompleteMaxVisible": 7,
+  "autocompleteMaxVisible": 20,
   "terminal": {
     "clearOnShrink": false,
     "showTerminalProgress": true
@@ -89,19 +99,12 @@
   "quietStartup": false,
   "doubleEscapeAction": "tree",
   "enabledModels": [
-    "openai-codex/gpt-5.5",
-    "google/gemini-3.1-pro-preview",
-    "google/gemini-3.5-flash",
-    "anthropic/claude-opus-4-7",
-    "anthropic/claude-sonnet-4-6",
-    "anthropic/claude-haiku-4-5-20251001",
-    "openai-codex/gpt-5.4",
-    "openai-codex/gpt-5.4-mini",
-    "openai/gpt-5.5"
+    "openai-codex/gpt-5.5"
   ],
   "compaction": {
     "enabled": true
   },
   "editorPaddingX": 2,
-  "transport": "auto"
+  "transport": "auto",
+  "steeringMode": "one-at-a-time"
 }

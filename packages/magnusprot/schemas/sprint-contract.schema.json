@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/NorthProt-Inc/NP-Harness/schemas/sprint-contract.schema.json",
+  "$id": "https://github.com/cyanprot/magnusprot/schemas/sprint-contract.schema.json",
   "title": "magnusprot Pi Sprint Contract",
   "type": "object",
   "required": [

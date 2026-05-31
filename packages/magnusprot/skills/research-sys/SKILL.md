@@ -3,7 +3,6 @@ name: research-sys
 description: Use when researching APIs, libraries, or approaches — structured findings
 metadata:
   pi:
-    model: sonnet
     user-invocable: true
     argument-hint: '[research question or topic]'
 ---

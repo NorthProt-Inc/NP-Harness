@@ -3,7 +3,6 @@ name: docs-dev
 description: Use when generating or auditing project docs — README, LICENSE, .gitignore
 metadata:
   pi:
-    model: haiku
     argument-hint: '[generate|audit] [--lang en|ko] [--include contributing]'
     user-invocable: true
 ---

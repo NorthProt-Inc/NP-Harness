@@ -56,7 +56,7 @@ async function readCampaign(pi: ExtensionAPI, cwd: string) {
 		"bash",
 		[
 			"-lc",
-			'latest=$(ls -1t "$1"/.pi/campaigns/*/campaign.json 2>/dev/null | head -n1); if [ -n "$latest" ]; then cat -- "$latest"; exit 0; fi; ' +
+			'latest=$(find "$1/.pi/campaigns" -mindepth 2 -maxdepth 2 -name campaign.json 2>/dev/null | while read -r f; do phase=$(jq -r \'.current_phase // empty\' "$f" 2>/dev/null); [ -z "$phase" ] || [ "$phase" = complete ] && continue; updated=$(jq -r \'.updated // .started // "0"\' "$f" 2>/dev/null); printf "%s\\t%s\\n" "$updated" "$f"; done | sort -r | head -n1 | cut -f2-); if [ -n "$latest" ]; then cat -- "$latest"; exit 0; fi; ' +
 				'if [ -f "$1/.pi/campaign.json" ]; then cat -- "$1/.pi/campaign.json"; exit 0; fi; exit 1',
 			"bash",
 			cwd,
@@ -102,17 +102,6 @@ export default function (pi: ExtensionAPI) {
 			}
 		}
 
-		for (const [keyword, skill] of Object.entries(skillMap)) {
-			const keywordPattern = new RegExp(`(^|please |let'?s |run |do )${keyword}\\b`);
-			if (keywordPattern.test(promptLower)) {
-				if (ctx.hasUI) {
-					ctx.ui.notify(`TRIAGE: T3-skill — consider using magnusprot:${skill} for this task.`, "info");
-				}
-				await appendAuditLine(pi, `T3:${keyword}`, prompt);
-				return { action: "continue" };
-			}
-		}
-
 		if (ctx.cwd) {
 			const campaign = await readCampaign(pi, ctx.cwd);
 			const phase = campaign?.current_phase ?? "";
@@ -127,6 +116,17 @@ export default function (pi: ExtensionAPI) {
 					);
 				}
 				await appendAuditLine(pi, "T2", prompt);
+				return { action: "continue" };
+			}
+		}
+
+		for (const [keyword, skill] of Object.entries(skillMap)) {
+			const keywordPattern = new RegExp(`(^|please |let'?s |run |do )${keyword}\\b`);
+			if (keywordPattern.test(promptLower)) {
+				if (ctx.hasUI) {
+					ctx.ui.notify(`TRIAGE: T3-skill — consider using magnusprot:${skill} for this task.`, "info");
+				}
+				await appendAuditLine(pi, `T3:${keyword}`, prompt);
 				return { action: "continue" };
 			}
 		}

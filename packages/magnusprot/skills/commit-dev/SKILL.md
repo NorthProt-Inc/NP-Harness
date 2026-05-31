@@ -3,7 +3,6 @@ name: commit-dev
 description: Use when committing — auto-format as Conventional Commits
 metadata:
   pi:
-    model: haiku
     user-invocable: true
 ---
 

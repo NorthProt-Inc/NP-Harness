@@ -4,20 +4,24 @@ import { join, relative } from "node:path";
 
 const root = process.argv[2] || process.cwd();
 const skip = new Set([".git", "node_modules", "sessions", "logs", "backups", "memory", ".remember", "codex-plugin-data"]);
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+const localHomePattern = process.env.HOME
+  ? new RegExp(`${escapeRegExp(process.env.HOME)}\\b`)
+  : /\/home\/[^/\s]+\b/;
+
 const patterns = [
   ["OpenAI/Anthropic-style key", /sk-(?!xxxx)[A-Za-z0-9_-]{20,}/],
   ["Google API key", /AIza[0-9A-Za-z_-]{20,}/],
   ["GitHub token", /gh[pousr]_[A-Za-z0-9_]{20,}/],
   ["Private key block", /-----BEGIN (?:RSA |OPENSSH |EC |DSA )?PRIVATE KEY-----/],
-  ["Local user path", /\/home\/cyan\b/],
-  ["Personal email", /cyan@northprot\.com/i],
-  ["Personal name", /Jongmin Lee/i],
+  ["Local home path", localHomePattern],
 ];
 const allow = new Set([
   "packages/magnusprot/skills/security-dev/SKILL.md:OpenAI/Anthropic-style key",
-  "scripts/secret-scan.mjs:Local user path",
-  "scripts/secret-scan.mjs:Personal email",
-  "scripts/secret-scan.mjs:Personal name",
 ]);
 const hits = [];
 function walk(dir) {

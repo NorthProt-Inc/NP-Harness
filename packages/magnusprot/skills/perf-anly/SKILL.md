@@ -3,7 +3,6 @@ name: perf-anly
 description: Use when analyzing performance — bottlenecks, complexity, N+1 queries
 metadata:
   pi:
-    model: sonnet
     argument-hint: <file-or-function>
     user-invocable: true
 ---

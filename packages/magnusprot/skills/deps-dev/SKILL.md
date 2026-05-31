@@ -3,7 +3,6 @@ name: deps-dev
 description: Use when checking outdated deps or running security audit
 metadata:
   pi:
-    model: haiku
     argument-hint: '[--audit|--outdated|--tree]'
     user-invocable: true
 ---

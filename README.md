@@ -108,8 +108,7 @@ Package-level scripts are defined in `packages/pi-kits`, `packages/pi-subagents`
 | `PI_AGENT_DIR` | `scripts/render-settings.mjs`, `packages/pi-kits` | No | Preferred target Pi agent directory override. |
 | `PI_CODING_AGENT_DIR` | Pi, `scripts/render-settings.mjs`, `packages/pi-kits`, `pi-subagents` tests | No | Pi's native config directory override. |
 | `HOME` | restore scripts and path defaults | Yes | Used to derive `~/.pi/agent` when no override is set. |
-| `EXAMPLE_API_KEY` | `mcp.example.json` | No | Placeholder only; replace for real MCP servers locally. |
-| `EXAMPLE_API_TOKEN` | `mcp.example.json` | No | Placeholder only; replace for real MCP servers locally. |
+| `TAVILY_API_KEY` | `mcp.example.json` | No | Placeholder for Tavily MCP; keep real value local only. |
 
 See [`.env.example`](.env.example). Do not commit a real `.env` file.
 
@@ -130,7 +129,7 @@ cd packages/pi-kits && npm run typecheck && npm test
 Also verify that no private runtime files are tracked:
 
 ```bash
-git ls-files | grep -E '(^|/)(auth\.json|mcp\.json|settings\.json|node_modules/|sessions/|logs/|memory/|\.remember/|codex-plugin-data/|backups/|\.pi/)'
+git ls-files | grep -E '(^|/)(auth\.json|mcp\.json|settings\.json|node_modules/|sessions/|logs/|memory/|\.remember/|codex-plugin-data/|backups/|\.pi/|\.env$|\.env\.)' | grep -v '^\.env\.example$'
 ```
 
 The command should print nothing.
